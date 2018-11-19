@@ -13,7 +13,7 @@ class Interface extends Component {
                 level2: [`десять`,`одинадцять`,`дванадцять`,`тринадцять`,`чотирнадцять`,`п'ятнадцять`,`шістнадцять`,`сімнадцять`,`вісімнадцять`,`дев'ятнадцять`],
                 level3: [`двадцять`,`тридцять`,`сорок`,`п'ятдисят`,`шістдесят`,`сімдесят`,`вісімдесят`,`дев'яносто`],
                 level4: [`сто`,`двісті`,`триста`,`чотириста`,`п'ятсот`,`шістсот`,`сімсот`,`вісімсот`,`дев'ятсот`],
-                level5: [`одна тисяча`,`тисячі`, `тисяч`],
+                level5: [`одна тисяча`,`дві тисячі`,`тисячі`, `тисяч`],
                 level6: [`мільйон`,`мільйони`,`мільйонів`]
             },
         };
@@ -124,24 +124,26 @@ class Interface extends Component {
 
     fifthLevelDetection(digit){
         let fifthLvlResult = null;
-        if(digit === 1){
+        if(digit === 0){
+            fifthLvlResult = this.state.dictionary.level5[3];
+        }else if(digit === 1){
             fifthLvlResult = this.state.dictionary.level5[0];
         }else if(digit === 2){
             fifthLvlResult = this.state.dictionary.level5[1];
         }else if(digit === 3){
-            fifthLvlResult = this.state.dictionary.level5[1];
+            fifthLvlResult = this.state.dictionary.level5[2];
         }else if(digit === 4){
-            fifthLvlResult = this.state.dictionary.level5[1];
+            fifthLvlResult = this.state.dictionary.level5[2];
         }else if(digit === 5){
-            fifthLvlResult = this.state.dictionary.level5[2];
+            fifthLvlResult = this.state.dictionary.level5[3];
         }else if(digit === 6){
-            fifthLvlResult = this.state.dictionary.level5[2];
+            fifthLvlResult = this.state.dictionary.level5[3];
         }else if(digit === 7){
-            fifthLvlResult = this.state.dictionary.level5[2];
+            fifthLvlResult = this.state.dictionary.level5[3];
         }else if(digit === 8){
-            fifthLvlResult = this.state.dictionary.level5[2];
+            fifthLvlResult = this.state.dictionary.level5[3];
         }else if(digit === 9){
-            fifthLvlResult = this.state.dictionary.level5[2];
+            fifthLvlResult = this.state.dictionary.level5[3];
         }
         return(fifthLvlResult)
     }
@@ -188,6 +190,38 @@ class Interface extends Component {
         });
         return innerResultArr
     }
+    thousandsToggle(inputValueArrNumbers){
+        let firstPart = [];
+        let secondPart = [];
+        let innerResultArr = [];
+        secondPart = inputValueArrNumbers.splice(inputValueArrNumbers.length -3, inputValueArrNumbers.length);
+        firstPart = inputValueArrNumbers.slice(0, inputValueArrNumbers.length);
+        console.log(firstPart);
+        console.log(secondPart);
+        if(firstPart.length === 1 && firstPart[0] !== 1 && firstPart[0] !== 2 ){
+            innerResultArr = this.oneDigitToggle(firstPart)
+        }else if(firstPart.length === 2){
+            if(firstPart[1] === 1){
+               innerResultArr.push(...this.twoDigitToggle([firstPart[0],0]))
+            }else if(firstPart[1] === 2){
+                innerResultArr.push(...this.twoDigitToggle([firstPart[0],0]))
+            }else{
+                innerResultArr = this.twoDigitToggle(firstPart)
+            }
+        }else if(firstPart.length === 3){
+            if(firstPart[2] === 1){
+                innerResultArr.push(...this.threeDigitToggle([firstPart[0],firstPart[1],0]))
+            }else if(firstPart[2] === 2){
+                innerResultArr.push(...this.threeDigitToggle([firstPart[0],firstPart[1],0]))
+            }else{
+                innerResultArr = this.threeDigitToggle(firstPart)
+            }
+        }
+        innerResultArr.push(this.fifthLevelDetection(firstPart[firstPart.length - 1]));
+        innerResultArr.push(...this.threeDigitToggle(secondPart));
+
+        return innerResultArr
+    }
 
 
 
@@ -204,6 +238,9 @@ class Interface extends Component {
             ResultArr = this.twoDigitToggle(inputValueArrNumbers);
         }else if(inputValueArrNumbers.length === 3){
             ResultArr = this.threeDigitToggle(inputValueArrNumbers)
+        }else if(inputValueArrNumbers.length > 3 && inputValueArrNumbers.length < 7){
+            ResultArr = this.thousandsToggle(inputValueArrNumbers)
+
         }
         console.log(ResultArr)
     }
