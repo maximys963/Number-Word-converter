@@ -148,6 +148,31 @@ class Interface extends Component {
         return(fifthLvlResult)
     }
 
+    sixthLevelDetection(digit){
+        let sixthLvlResult = null;
+        if(digit === 1){
+            sixthLvlResult = this.state.dictionary.level6[0];
+        }else if(digit === 2){
+            sixthLvlResult = this.state.dictionary.level6[1];
+        }else if(digit === 3){
+            sixthLvlResult = this.state.dictionary.level6[1];
+        }else if(digit === 4){
+            sixthLvlResult = this.state.dictionary.level6[1];
+        }else if(digit === 5){
+            sixthLvlResult = this.state.dictionary.level6[2];
+        }else if(digit === 6){
+            sixthLvlResult = this.state.dictionary.level6[2];
+        }else if(digit === 7){
+            sixthLvlResult = this.state.dictionary.level6[2];
+        }else if(digit === 8){
+            sixthLvlResult = this.state.dictionary.level6[2];
+        }else if(digit === 9){
+            sixthLvlResult = this.state.dictionary.level6[2];
+        }
+        return(sixthLvlResult)
+    }
+
+
 
     threeDigitToggle(inputValueArrNumbers){
         let innerResultArr = [];
@@ -223,6 +248,26 @@ class Interface extends Component {
         return innerResultArr
     }
 
+    millionToggle(inputValueArrNumbers){
+        let firstPart = [];
+        let secondPart = [];
+        let innerResultArr = [];
+        secondPart = inputValueArrNumbers.splice(inputValueArrNumbers.length -6, inputValueArrNumbers.length);
+        firstPart = inputValueArrNumbers.slice(0, inputValueArrNumbers.length);
+        if(firstPart.length === 1){
+           innerResultArr = this.oneDigitToggle(firstPart);
+        }else if(firstPart.length === 2){
+            innerResultArr = this.twoDigitToggle(firstPart);
+        }else if(firstPart.length === 3){
+            innerResultArr = this.threeDigitToggle(firstPart);
+        }
+        innerResultArr.push(this.sixthLevelDetection(firstPart[firstPart.length -1]));
+        innerResultArr.push(...this.thousandsToggle(secondPart));
+
+
+        return innerResultArr
+    }
+
 
 
     getValue(){
@@ -241,6 +286,8 @@ class Interface extends Component {
         }else if(inputValueArrNumbers.length > 3 && inputValueArrNumbers.length < 7){
             ResultArr = this.thousandsToggle(inputValueArrNumbers)
 
+        }else if(inputValueArrNumbers.length > 6 && inputValueArrNumbers.length < 10){
+            ResultArr = this.millionToggle(inputValueArrNumbers)
         }
         console.log(ResultArr)
     }
