@@ -9,6 +9,13 @@ class Interface extends Component {
             currentNumber: [],
             result: [],
             dictionary:{
+                levelMinus6: ['одна мільйонна','дві мільйонні','мільйонні','мільйонних'],
+                levelMinus5: ['одна стотисячна','дві стотисячні','стотисячні','стотисячних'],
+                levelMinus4: ['одна десятитисячна','дві десятитисячні','десятитисячні','десятитисячних'],
+                levelMinus3: ['одна тисячна', 'дві тисячні', 'тисячні', 'тисячних'],
+                levelMinus2: ['одна сота', 'дві соті', 'соті', 'сотих'],
+                levelMinus1: [`одна десята`,`дві десяті`,`десяті`,`десятих`],
+                level0: [`одна ціла`,`дві цілі`,`цілі`,`цілих`],
                 level1: [`нуль`,`один`,`два`, `три`, `чотири`,`п'ять`,`шість`,`сім`,`вісім`,`дев'ять`],
                 level2: [`десять`,`одинадцять`,`дванадцять`,`тринадцять`,`чотирнадцять`,`п'ятнадцять`,`шістнадцять`,`сімнадцять`,`вісімнадцять`,`дев'ятнадцять`],
                 level3: [`двадцять`,`тридцять`,`сорок`,`п'ятдисят`,`шістдесят`,`сімдесят`,`вісімдесят`,`дев'яносто`],
@@ -17,6 +24,86 @@ class Interface extends Component {
                 level6: [`мільйон`,`мільйони`,`мільйонів`]
             },
         };
+    }
+
+
+    minussecondLevelDetection(digit){
+        let minusSecondLvlResult = null;
+        if(digit === 0){
+            minusSecondLvlResult = this.state.dictionary.levelMinus2[3];
+        }else if(digit === 1){
+            minusSecondLvlResult = this.state.dictionary.levelMinus2[0];
+        }else if(digit === 2){
+            minusSecondLvlResult = this.state.dictionary.levelMinus2[1];
+        }else if(digit === 3 || digit === 4){
+            minusSecondLvlResult = this.state.dictionary.levelMinus2[2];
+        }else if(digit > 4 || digit < 10){
+            minusSecondLvlResult = this.state.dictionary.levelMinus2[3];
+        }
+        return(minusSecondLvlResult)
+    }
+
+
+    minusfirstLevelDetection(digit){
+        let minusfirstLvlResult = null;
+        if(digit === 0){
+            minusfirstLvlResult = this.state.dictionary.levelMinus1[3];
+        }else if(digit === 1){
+            minusfirstLvlResult = this.state.dictionary.levelMinus1[0];
+        }else if(digit === 2){
+            minusfirstLvlResult = this.state.dictionary.levelMinus1[1];
+        }else if(digit === 3 || digit === 4){
+            minusfirstLvlResult = this.state.dictionary.levelMinus1[2];
+        }else if(digit > 4 || digit < 10){
+            minusfirstLvlResult = this.state.dictionary.levelMinus1[3];
+        }
+        return(minusfirstLvlResult)
+    }
+
+    zeroLevelDetection(digit){
+        console.log(digit);
+        let zeroLvlResult = null;
+        if(digit === 0){
+            zeroLvlResult = this.state.dictionary.level0[3];
+        }else if(digit === 1){
+            zeroLvlResult = this.state.dictionary.level0[0];
+        }else if(digit === 2){
+            zeroLvlResult = this.state.dictionary.level0[1];
+        }else if(digit === 3 || digit === 4){
+            zeroLvlResult = this.state.dictionary.level0[2];
+        }else if(digit > 4 || digit < 10){
+            zeroLvlResult = this.state.dictionary.level0[3];
+        }
+        return(zeroLvlResult)
+    }
+
+
+
+    firstLevelDetection(digit){
+        console.log(digit);
+        let secondLvlResult = null;
+        if(digit === 0){
+            secondLvlResult = this.state.dictionary.level1[0];
+        }else if(digit === 1){
+            secondLvlResult = this.state.dictionary.level1[1];
+        }else if(digit === 2){
+            secondLvlResult = this.state.dictionary.level1[2];
+        }else if(digit === 3){
+            secondLvlResult = this.state.dictionary.level1[3];
+        }else if(digit === 4){
+            secondLvlResult = this.state.dictionary.level1[4];
+        }else if(digit === 5){
+            secondLvlResult = this.state.dictionary.level1[5];
+        }else if(digit === 6){
+            secondLvlResult = this.state.dictionary.level1[6];
+        }else if(digit === 7){
+            secondLvlResult = this.state.dictionary.level1[7];
+        }else if(digit === 8){
+            secondLvlResult = this.state.dictionary.level1[8];
+        }else if(digit === 9){
+            secondLvlResult = this.state.dictionary.level1[9];
+        }
+        return(secondLvlResult)
     }
 
     secondLevelDetection(digit){
@@ -47,32 +134,7 @@ class Interface extends Component {
     }
 
 
-    firstLevelDetection(digit){
-        console.log(digit);
-        let secondLvlResult = null;
-        if(digit === 0){
-            secondLvlResult = this.state.dictionary.level1[0];
-        }else if(digit === 1){
-            secondLvlResult = this.state.dictionary.level1[1];
-        }else if(digit === 2){
-            secondLvlResult = this.state.dictionary.level1[2];
-        }else if(digit === 3){
-            secondLvlResult = this.state.dictionary.level1[3];
-        }else if(digit === 4){
-            secondLvlResult = this.state.dictionary.level1[4];
-        }else if(digit === 5){
-            secondLvlResult = this.state.dictionary.level1[5];
-        }else if(digit === 6){
-            secondLvlResult = this.state.dictionary.level1[6];
-        }else if(digit === 7){
-            secondLvlResult = this.state.dictionary.level1[7];
-        }else if(digit === 8){
-            secondLvlResult = this.state.dictionary.level1[8];
-        }else if(digit === 9){
-            secondLvlResult = this.state.dictionary.level1[9];
-        }
-        return(secondLvlResult)
-    }
+
 
     thirdLevelDetection(digit){
         let thirdLvlResult = null;
@@ -234,15 +296,21 @@ class Interface extends Component {
                 innerResultArr = this.twoDigitToggle(firstPart)
             }
         }else if(firstPart.length === 3){
-            if(firstPart[2] === 1){
+
+            if(firstPart[2] === 1 && firstPart[1] !== 1){
                 innerResultArr.push(...this.threeDigitToggle([firstPart[0],firstPart[1],0]))
-            }else if(firstPart[2] === 2){
+            }else if(firstPart[2] === 2 && firstPart[1] !== 1){
                 innerResultArr.push(...this.threeDigitToggle([firstPart[0],firstPart[1],0]))
             }else{
                 innerResultArr = this.threeDigitToggle(firstPart)
             }
         }
-        innerResultArr.push(this.fifthLevelDetection(firstPart[firstPart.length - 1]));
+        if(firstPart[firstPart.length - 2] === 1){
+            innerResultArr.push(this.fifthLevelDetection(5));
+        }else{
+            innerResultArr.push(this.fifthLevelDetection(firstPart[firstPart.length - 1]));
+        }
+        // innerResultArr.push(this.fifthLevelDetection(firstPart[firstPart.length - 1]));
         innerResultArr.push(...this.threeDigitToggle(secondPart));
 
         return innerResultArr
@@ -270,12 +338,78 @@ class Interface extends Component {
 
 
 
+    zeroToggle(inputValueArrNumbersCopy){
+        let innerResultArr = [];
+        if(inputValueArrNumbersCopy[inputValueArrNumbersCopy.length-2] === 1){
+            innerResultArr = this.zeroLevelDetection(9);
+        }else if(inputValueArrNumbersCopy.length-1 === 1){
+
+        }else{
+            innerResultArr = this.zeroLevelDetection(inputValueArrNumbersCopy[inputValueArrNumbersCopy.length-1])
+        }
+
+        return innerResultArr
+    }
+
+    pointDecadeToggle(inpValArrStrAfterPoint){
+       let innerResultArr = [];
+       console.log(inpValArrStrAfterPoint[0] === 1);
+        if(inpValArrStrAfterPoint[0] === 1 || inpValArrStrAfterPoint[0] === 2){
+            console.log(`here`);
+            innerResultArr.push(this.minusfirstLevelDetection(inpValArrStrAfterPoint[0]));
+        }else{
+            innerResultArr.push(this.firstLevelDetection(inpValArrStrAfterPoint[0]));
+            innerResultArr.push(this.minusfirstLevelDetection(inpValArrStrAfterPoint[0]));
+        }
+        return innerResultArr;
+    }
+
+    pointHundredToggle(inpValArrStrAfterPoint){
+        let innerResultArr = [];
+        // innerResultArr.push(...this.twoDigitToggle(inpValArrStrAfterPoint));
+        if(inpValArrStrAfterPoint[0] === 0){
+            if(inpValArrStrAfterPoint[1] === 1 || inpValArrStrAfterPoint[1] === 2){
+                console.log(`here`);
+                innerResultArr.push(this.minussecondLevelDetection(inpValArrStrAfterPoint[1]));
+            }else{
+                innerResultArr.push(this.firstLevelDetection(inpValArrStrAfterPoint[1]));
+                innerResultArr.push(this.minussecondLevelDetection(inpValArrStrAfterPoint[1]));
+            }
+        }else{
+            if(inpValArrStrAfterPoint[0] === 1){
+                innerResultArr.push(...this.twoDigitToggle(inpValArrStrAfterPoint));
+                innerResultArr.push(this.minussecondLevelDetection(9));
+            }
+
+        }
+        return innerResultArr
+    }
+
+
+
     getValue(){
         let ResultArr = [];
-        let inputValueArrStrings = document.getElementById('left-input').value.split('');
+        let initialArrStrings = document.getElementById('left-input').value.split('');
+        let inputValueArrStrings = [];
+        let inpValArrStrAfterPoint = [];
+        if(initialArrStrings.some(elem => elem === '.')){
+           let joinString = initialArrStrings.join('').split('.');
+           console.log(joinString);
+            inputValueArrStrings = joinString[0].split('');
+            inpValArrStrAfterPoint = joinString[1].split('');
+        }else{
+            inputValueArrStrings = initialArrStrings;
+        }
+        console.log(inputValueArrStrings);
         let inputValueArrNumbers = [];
+        let inputValueArrNumbersCopy = [];
+        let inpValArrNumAfterPoint = [];
         inputValueArrStrings.forEach( elem => {
             inputValueArrNumbers.push(parseInt(elem));
+            inputValueArrNumbersCopy.push(parseInt(elem));
+        });
+        inpValArrStrAfterPoint.forEach( elem =>{
+           inpValArrNumAfterPoint.push(parseInt(elem))
         });
         if(inputValueArrNumbers.length === 1) {
             ResultArr = this.oneDigitToggle(inputValueArrNumbers)
@@ -289,7 +423,45 @@ class Interface extends Component {
         }else if(inputValueArrNumbers.length > 6 && inputValueArrNumbers.length < 10){
             ResultArr = this.millionToggle(inputValueArrNumbers)
         }
-        console.log(ResultArr)
+
+
+
+
+
+        if(inpValArrStrAfterPoint.length !== 0){
+            console.log(`this start arr ${inpValArrNumAfterPoint}`);
+            inpValArrNumAfterPoint.reverse();
+
+            for (let i = 0; i < inpValArrNumAfterPoint.length; i++) {
+               if(inpValArrNumAfterPoint[i] === 0){
+                   inpValArrNumAfterPoint.shift();
+                   i = -1;
+               }else{
+                   break
+               }
+            }
+
+            console.log(`this is minimised ${inpValArrNumAfterPoint}`);
+            inpValArrNumAfterPoint.reverse();
+            console.log(`this is finished ${inpValArrNumAfterPoint}`);
+
+
+            if(inputValueArrNumbersCopy[inputValueArrNumbersCopy.length -1] === 1
+                && inputValueArrNumbersCopy[inputValueArrNumbersCopy.length - 2] !== 1){
+                ResultArr.pop();
+            }else if(inputValueArrNumbersCopy[inputValueArrNumbersCopy.length -1] === 2
+                && inputValueArrNumbersCopy[inputValueArrNumbersCopy.length - 2] !== 1){
+                ResultArr.pop();
+            }
+            console.log(inputValueArrNumbersCopy);
+           ResultArr.push(this.zeroToggle(inputValueArrNumbersCopy));
+            if(inpValArrNumAfterPoint.length === 1){
+                ResultArr.push(...this.pointDecadeToggle(inpValArrNumAfterPoint));
+            }else if(inpValArrNumAfterPoint.length === 2){
+                ResultArr.push(...this.pointHundredToggle(inpValArrNumAfterPoint))
+            }
+        }
+        console.log(ResultArr);
     }
 
     render() {
