@@ -27,6 +27,23 @@ class Interface extends Component {
     }
 
 
+    minusthirdLevelDetection(digit){
+        let minusThirdLvlResult = null;
+        if(digit === 0){
+            minusThirdLvlResult = this.state.dictionary.levelMinus3[3];
+        }else if(digit === 1){
+            minusThirdLvlResult = this.state.dictionary.levelMinus3[0];
+        }else if(digit === 2){
+            minusThirdLvlResult = this.state.dictionary.levelMinus3[1];
+        }else if(digit === 3 || digit === 4){
+            minusThirdLvlResult = this.state.dictionary.levelMinus3[2];
+        }else if(digit > 4 || digit < 10){
+            minusThirdLvlResult = this.state.dictionary.levelMinus3[3];
+        }
+        return(minusThirdLvlResult)
+    }
+
+
     minussecondLevelDetection(digit){
         let minusSecondLvlResult = null;
         if(digit === 0){
@@ -42,7 +59,6 @@ class Interface extends Component {
         }
         return(minusSecondLvlResult)
     }
-
 
     minusfirstLevelDetection(digit){
         let minusfirstLvlResult = null;
@@ -76,8 +92,6 @@ class Interface extends Component {
         }
         return(zeroLvlResult)
     }
-
-
 
     firstLevelDetection(digit){
         console.log(digit);
@@ -134,8 +148,6 @@ class Interface extends Component {
     }
 
 
-
-
     thirdLevelDetection(digit){
         let thirdLvlResult = null;
         if(digit === 2){
@@ -157,7 +169,6 @@ class Interface extends Component {
         }
         return(thirdLvlResult)
     }
-
 
     fourthLevelDetection(digit){
         let fourthLvlResult = null;
@@ -182,7 +193,6 @@ class Interface extends Component {
         }
         return(fourthLvlResult)
     }
-
 
     fifthLevelDetection(digit){
         let fifthLvlResult = null;
@@ -212,7 +222,9 @@ class Interface extends Component {
 
     sixthLevelDetection(digit){
         let sixthLvlResult = null;
-        if(digit === 1){
+        if(digit === 0){
+            sixthLvlResult = this.state.dictionary.level6[2];
+        }else if(digit === 1){
             sixthLvlResult = this.state.dictionary.level6[0];
         }else if(digit === 2){
             sixthLvlResult = this.state.dictionary.level6[1];
@@ -233,8 +245,6 @@ class Interface extends Component {
         }
         return(sixthLvlResult)
     }
-
-
 
     threeDigitToggle(inputValueArrNumbers){
         let innerResultArr = [];
@@ -326,17 +336,25 @@ class Interface extends Component {
            innerResultArr = this.oneDigitToggle(firstPart);
         }else if(firstPart.length === 2){
             innerResultArr = this.twoDigitToggle(firstPart);
+                 if(firstPart[0] === 1){
+                     innerResultArr.push(this.sixthLevelDetection(9));
+                 }else{
+                     innerResultArr.push(this.sixthLevelDetection(firstPart[firstPart.length -1]))
+                 }
         }else if(firstPart.length === 3){
             innerResultArr = this.threeDigitToggle(firstPart);
-        }
-        innerResultArr.push(this.sixthLevelDetection(firstPart[firstPart.length -1]));
-        innerResultArr.push(...this.thousandsToggle(secondPart));
 
+                if(firstPart[1] === 1){
+                    innerResultArr.push(this.sixthLevelDetection(9));
+                }else{
+                    innerResultArr.push(this.sixthLevelDetection(firstPart[firstPart.length -1]))
+                }
+        }
+
+        innerResultArr.push(...this.thousandsToggle(secondPart));
 
         return innerResultArr
     }
-
-
 
     zeroToggle(inputValueArrNumbersCopy){
         let innerResultArr = [];
@@ -379,15 +397,49 @@ class Interface extends Component {
             if(inpValArrStrAfterPoint[0] === 1){
                 innerResultArr.push(...this.twoDigitToggle(inpValArrStrAfterPoint));
                 innerResultArr.push(this.minussecondLevelDetection(9));
+            }else{
+                if(inpValArrStrAfterPoint[1] === 1 || inpValArrStrAfterPoint[1] === 2 ){
+                    innerResultArr.push(...this.twoDigitToggle(inpValArrStrAfterPoint));
+                    innerResultArr.pop();
+                    innerResultArr.push(this.minussecondLevelDetection(inpValArrStrAfterPoint[1]));
+                }else {
+                    innerResultArr.push(...this.twoDigitToggle(inpValArrStrAfterPoint));
+                    innerResultArr.push(this.minussecondLevelDetection(inpValArrStrAfterPoint[1]));
+                }
+
             }
 
         }
         return innerResultArr
     }
 
+    pointThousandToggle(inpValArrStrAfterPoint) {
+        let innerResultArr = [];
+        if (inpValArrStrAfterPoint[0] === 0 && inpValArrStrAfterPoint[1] === 0) {
+            if (inpValArrStrAfterPoint[2] === 1 || inpValArrStrAfterPoint[2] === 2) {
+                console.log(`here`);
+                innerResultArr.push(this.minusthirdLevelDetection(inpValArrStrAfterPoint[2]));
+            } else {
+                innerResultArr.push(this.firstLevelDetection(inpValArrStrAfterPoint[2]));
+                innerResultArr.push(this.minusthirdLevelDetection(inpValArrStrAfterPoint[2]));
+            }
+        }else{
+            if(inpValArrStrAfterPoint[1] === 1){
+                innerResultArr.push(...this.threeDigitToggle(inpValArrStrAfterPoint));
+                innerResultArr.push(this.minusthirdLevelDetection(9));
+            }else{
+                innerResultArr.push(...this.threeDigitToggle(inpValArrStrAfterPoint));
+                innerResultArr.pop();
+                innerResultArr.push(this.minusthirdLevelDetection(inpValArrStrAfterPoint[2]));
+            }
+        }
+        return innerResultArr
+    }
 
 
-    getValue(){
+
+
+        getValue(){
         let ResultArr = [];
         let initialArrStrings = document.getElementById('left-input').value.split('');
         let inputValueArrStrings = [];
@@ -459,6 +511,8 @@ class Interface extends Component {
                 ResultArr.push(...this.pointDecadeToggle(inpValArrNumAfterPoint));
             }else if(inpValArrNumAfterPoint.length === 2){
                 ResultArr.push(...this.pointHundredToggle(inpValArrNumAfterPoint))
+            }else if(inpValArrNumAfterPoint.length === 3){
+                ResultArr.push(...this.pointThousandToggle(inpValArrNumAfterPoint))
             }
         }
         console.log(ResultArr);
