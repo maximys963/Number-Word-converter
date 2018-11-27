@@ -26,6 +26,38 @@ class Interface extends Component {
         };
     }
 
+    minusfifthLevelDetection(digit){
+        let minusFifthLvlResult = null;
+        if(digit === 0){
+            minusFifthLvlResult = this.state.dictionary.levelMinus4[3];
+        }else if(digit === 1){
+            minusFifthLvlResult = this.state.dictionary.levelMinus4[0];
+        }else if(digit === 2){
+            minusFifthLvlResult = this.state.dictionary.levelMinus4[1];
+        }else if(digit === 3 || digit === 4){
+            minusFifthLvlResult = this.state.dictionary.levelMinus4[2];
+        }else if(digit > 4 || digit < 10){
+            minusFifthLvlResult = this.state.dictionary.levelMinus4[3];
+        }
+        return(minusFifthLvlResult)
+    }
+
+    minusfourthLevelDetection(digit){
+        let minusFouthLvlResult = null;
+        if(digit === 0){
+            minusFouthLvlResult = this.state.dictionary.levelMinus4[3];
+        }else if(digit === 1){
+            minusFouthLvlResult = this.state.dictionary.levelMinus4[0];
+        }else if(digit === 2){
+            minusFouthLvlResult = this.state.dictionary.levelMinus4[1];
+        }else if(digit === 3 || digit === 4){
+            minusFouthLvlResult = this.state.dictionary.levelMinus4[2];
+        }else if(digit > 4 || digit < 10){
+            minusFouthLvlResult = this.state.dictionary.levelMinus4[3];
+        }
+        return(minusFouthLvlResult)
+    }
+
 
     minusthirdLevelDetection(digit){
         let minusThirdLvlResult = null;
@@ -436,6 +468,62 @@ class Interface extends Component {
         return innerResultArr
     }
 
+    pointTenThousandToggle(inpValArrStrAfterPoint) {
+        let innerResultArr = [];
+        if (inpValArrStrAfterPoint[0] === 0 && inpValArrStrAfterPoint[1] === 0 && inpValArrStrAfterPoint[2] === 0) {
+            if (inpValArrStrAfterPoint[3] === 1 || inpValArrStrAfterPoint[3] === 2) {
+
+                innerResultArr.push(this.minusfourthLevelDetection(inpValArrStrAfterPoint[3]));
+            } else {
+                innerResultArr.push(this.firstLevelDetection(inpValArrStrAfterPoint[3]));
+                innerResultArr.push(this.minusfourthLevelDetection(inpValArrStrAfterPoint[3]));
+            }
+        }else if(inpValArrStrAfterPoint[0] === 0){
+                inpValArrStrAfterPoint.shift();
+                // innerResultArr.push(...this.pointThousandToggle(inpValArrStrAfterPoint));
+                    if (inpValArrStrAfterPoint[0] === 0 && inpValArrStrAfterPoint[1] === 0) {
+                        if (inpValArrStrAfterPoint[2] === 1 || inpValArrStrAfterPoint[2] === 2) {
+                            innerResultArr.push(this.minusfourthLevelDetection(inpValArrStrAfterPoint[2]));
+                        } else {
+                            innerResultArr.push(this.firstLevelDetection(inpValArrStrAfterPoint[2]));
+                            innerResultArr.push(this.minusfourthLevelDetection(inpValArrStrAfterPoint[2]));
+                        }
+                    }else{
+                        if(inpValArrStrAfterPoint[1] === 1){
+                            innerResultArr.push(...this.threeDigitToggle(inpValArrStrAfterPoint));
+                            innerResultArr.push(this.minusfourthLevelDetection(9));
+                        }else{
+                            innerResultArr.push(...this.threeDigitToggle(inpValArrStrAfterPoint));
+                            innerResultArr.pop();
+                            innerResultArr.push(this.minusfourthLevelDetection(inpValArrStrAfterPoint[2]));
+                        }
+                    }
+
+        }else{
+            if(inpValArrStrAfterPoint[2] === 1){
+                innerResultArr.push(...this.thousandsToggle(inpValArrStrAfterPoint));
+                innerResultArr.push(this.minusfourthLevelDetection(9));
+            }else{
+                if(inpValArrStrAfterPoint[3] === 1 || inpValArrStrAfterPoint[3] === 2){
+                    let additionVar = inpValArrStrAfterPoint[3];
+                    innerResultArr.push(...this.thousandsToggle(inpValArrStrAfterPoint));
+                    innerResultArr.pop();
+                    console.log(inpValArrStrAfterPoint);
+                    innerResultArr.push(this.minusfourthLevelDetection(additionVar));
+                }else{
+                    let additionVar = inpValArrStrAfterPoint[3];
+                    innerResultArr.push(...this.thousandsToggle(inpValArrStrAfterPoint));
+                    console.log(inpValArrStrAfterPoint);
+                    innerResultArr.push(this.minusfourthLevelDetection(additionVar));
+
+                }
+
+            }
+        }
+
+        return innerResultArr
+    }
+
 
 
 
@@ -510,9 +598,11 @@ class Interface extends Component {
             if(inpValArrNumAfterPoint.length === 1){
                 ResultArr.push(...this.pointDecadeToggle(inpValArrNumAfterPoint));
             }else if(inpValArrNumAfterPoint.length === 2){
-                ResultArr.push(...this.pointHundredToggle(inpValArrNumAfterPoint))
+                ResultArr.push(...this.pointHundredToggle(inpValArrNumAfterPoint));
             }else if(inpValArrNumAfterPoint.length === 3){
-                ResultArr.push(...this.pointThousandToggle(inpValArrNumAfterPoint))
+                ResultArr.push(...this.pointThousandToggle(inpValArrNumAfterPoint));
+            }else if(inpValArrNumAfterPoint.length === 4){
+                ResultArr.push(...this.pointTenThousandToggle(inpValArrNumAfterPoint));
             }
         }
         console.log(ResultArr);
