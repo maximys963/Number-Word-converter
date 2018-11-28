@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Input } from 'antd';
 import { Button } from 'antd';
 import 'antd/dist/antd.less'
+const { TextArea } = Input;
 class Interface extends Component {
     constructor(){
         super();
@@ -9,8 +10,6 @@ class Interface extends Component {
             currentNumber: [],
             result: [],
             dictionary:{
-                levelMinus6: ['одна мільйонна','дві мільйонні','мільйонні','мільйонних'],
-                levelMinus5: ['одна стотисячна','дві стотисячні','стотисячні','стотисячних'],
                 levelMinus4: ['одна десятитисячна','дві десятитисячні','десятитисячні','десятитисячних'],
                 levelMinus3: ['одна тисячна', 'дві тисячні', 'тисячні', 'тисячних'],
                 levelMinus2: ['одна сота', 'дві соті', 'соті', 'сотих'],
@@ -25,23 +24,6 @@ class Interface extends Component {
             },
         };
     }
-
-    minusfifthLevelDetection(digit){
-        let minusFifthLvlResult = null;
-        if(digit === 0){
-            minusFifthLvlResult = this.state.dictionary.levelMinus4[3];
-        }else if(digit === 1){
-            minusFifthLvlResult = this.state.dictionary.levelMinus4[0];
-        }else if(digit === 2){
-            minusFifthLvlResult = this.state.dictionary.levelMinus4[1];
-        }else if(digit === 3 || digit === 4){
-            minusFifthLvlResult = this.state.dictionary.levelMinus4[2];
-        }else if(digit > 4 || digit < 10){
-            minusFifthLvlResult = this.state.dictionary.levelMinus4[3];
-        }
-        return(minusFifthLvlResult)
-    }
-
     minusfourthLevelDetection(digit){
         let minusFouthLvlResult = null;
         if(digit === 0){
@@ -606,14 +588,17 @@ class Interface extends Component {
             }
         }
         console.log(ResultArr);
+        let OutputResult = ResultArr.join(' ');
+        let output = document.getElementById('right-input');
+        output.value = OutputResult;
     }
 
     render() {
         return (
             <div className='container'>
-                <Input placeholder="Basic usage" id='left-input' />
-                <Button type="primary" onClick={() =>{this.getValue()}} >Primary</Button>
-                <Input placeholder="Basic usage" />
+                <Input placeholder="Write your number please" id='left-input' />
+                <Button type="primary" onClick={() =>{this.getValue()}} >Convert</Button>
+                <TextArea rows={4} placeholder="Here your result appears" id='right-input'/>
             </div>
         );
     }

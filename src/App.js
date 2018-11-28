@@ -6,6 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <div className='top-bar'>Number-Word Converter</div>
         <Interface/>
       </div>
     );

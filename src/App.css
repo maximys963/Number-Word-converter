@@ -1,13 +1,43 @@
 @import '~antd/dist/antd.css';
 
+
+@font-face {
+  font-family: 'Chakra Petch', sans-serif;
+  font-style: normal;
+  src: local('Chakra Petch'), url('./fonts/ChakraPetch-Bold.ttf') format('truetype');
+
+}
 .App {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+.top-bar{
+  height: 80px;
+  width: 100%;
+  background-color: #2980b9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: white;
+  font-family: 'Chakra Petch', sans-serif;
+
+}
 .container{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  margin-top: 60px;
+  align-items: flex-end;
+
+}
+#right-input{
+  width: 500px;
+  margin-top:10px;
+}
+#left-input{
+  width: 500px;
+  margin-bottom: 10px;
 }
