@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Input } from 'antd';
 import { Button } from 'antd';
+import { Alert } from 'antd';
 import 'antd/dist/antd.less'
 const { TextArea } = Input;
 class Interface extends Component {
@@ -9,6 +10,7 @@ class Interface extends Component {
         this.state = {
             currentNumber: [],
             result: [],
+            error: '',
             dictionary:{
                 levelMinus4: ['одна десятитисячна','дві десятитисячні','десятитисячні','десятитисячних'],
                 levelMinus3: ['одна тисячна', 'дві тисячні', 'тисячні', 'тисячних'],
@@ -39,8 +41,6 @@ class Interface extends Component {
         }
         return(minusFouthLvlResult)
     }
-
-
     minusthirdLevelDetection(digit){
         let minusThirdLvlResult = null;
         if(digit === 0){
@@ -347,7 +347,8 @@ class Interface extends Component {
         secondPart = inputValueArrNumbers.splice(inputValueArrNumbers.length -6, inputValueArrNumbers.length);
         firstPart = inputValueArrNumbers.slice(0, inputValueArrNumbers.length);
         if(firstPart.length === 1){
-           innerResultArr = this.oneDigitToggle(firstPart);
+                innerResultArr = this.oneDigitToggle(firstPart);
+                innerResultArr.push(this.sixthLevelDetection(firstPart[0]));
         }else if(firstPart.length === 2){
             innerResultArr = this.twoDigitToggle(firstPart);
                  if(firstPart[0] === 1){
@@ -509,6 +510,7 @@ class Interface extends Component {
 
 
 
+
         getValue(){
         let ResultArr = [];
         let initialArrStrings = document.getElementById('left-input').value.split('');
@@ -533,69 +535,91 @@ class Interface extends Component {
         inpValArrStrAfterPoint.forEach( elem =>{
            inpValArrNumAfterPoint.push(parseInt(elem))
         });
-        if(inputValueArrNumbers.length === 1) {
-            ResultArr = this.oneDigitToggle(inputValueArrNumbers)
-        }else if(inputValueArrNumbers.length === 2){
-            ResultArr = this.twoDigitToggle(inputValueArrNumbers);
-        }else if(inputValueArrNumbers.length === 3){
-            ResultArr = this.threeDigitToggle(inputValueArrNumbers)
-        }else if(inputValueArrNumbers.length > 3 && inputValueArrNumbers.length < 7){
-            ResultArr = this.thousandsToggle(inputValueArrNumbers)
+        if(inputValueArrNumbers.length > 9 || inpValArrNumAfterPoint > 4){
+            this.setState({
+                error: 'You broke limit of digit'
+            })
+        }else{
+            if(inputValueArrNumbers.length === 1) {
+                ResultArr = this.oneDigitToggle(inputValueArrNumbers)
+            }else if(inputValueArrNumbers.length === 2){
+                ResultArr = this.twoDigitToggle(inputValueArrNumbers);
+            }else if(inputValueArrNumbers.length === 3){
+                ResultArr = this.threeDigitToggle(inputValueArrNumbers)
+            }else if(inputValueArrNumbers.length > 3 && inputValueArrNumbers.length < 7){
+                ResultArr = this.thousandsToggle(inputValueArrNumbers)
 
-        }else if(inputValueArrNumbers.length > 6 && inputValueArrNumbers.length < 10){
-            ResultArr = this.millionToggle(inputValueArrNumbers)
+            }else if(inputValueArrNumbers.length > 6 && inputValueArrNumbers.length < 10){
+                ResultArr = this.millionToggle(inputValueArrNumbers)
+            }
+
+
+
+
+
+            if(inpValArrStrAfterPoint.length !== 0){
+                console.log(`this start arr ${inpValArrNumAfterPoint}`);
+                inpValArrNumAfterPoint.reverse();
+
+                for (let i = 0; i < inpValArrNumAfterPoint.length; i++) {
+                    if(inpValArrNumAfterPoint[i] === 0){
+                        inpValArrNumAfterPoint.shift();
+                        i = -1;
+                    }else{
+                        break
+                    }
+                }
+
+                console.log(`this is minimised ${inpValArrNumAfterPoint}`);
+                inpValArrNumAfterPoint.reverse();
+                console.log(`this is finished ${inpValArrNumAfterPoint}`);
+
+
+                if(inputValueArrNumbersCopy[inputValueArrNumbersCopy.length -1] === 1
+                    && inputValueArrNumbersCopy[inputValueArrNumbersCopy.length - 2] !== 1){
+                    ResultArr.pop();
+                }else if(inputValueArrNumbersCopy[inputValueArrNumbersCopy.length -1] === 2
+                    && inputValueArrNumbersCopy[inputValueArrNumbersCopy.length - 2] !== 1){
+                    ResultArr.pop();
+                }
+                console.log(inputValueArrNumbersCopy);
+                ResultArr.push(this.zeroToggle(inputValueArrNumbersCopy));
+                if(inpValArrNumAfterPoint.length === 1){
+                    ResultArr.push(...this.pointDecadeToggle(inpValArrNumAfterPoint));
+                }else if(inpValArrNumAfterPoint.length === 2){
+                    ResultArr.push(...this.pointHundredToggle(inpValArrNumAfterPoint));
+                }else if(inpValArrNumAfterPoint.length === 3){
+                    ResultArr.push(...this.pointThousandToggle(inpValArrNumAfterPoint));
+                }else if(inpValArrNumAfterPoint.length === 4){
+                    ResultArr.push(...this.pointTenThousandToggle(inpValArrNumAfterPoint));
+                }
+            }
+            console.log(ResultArr);
+            let OutputResult = ResultArr.join(' ');
+            let output = document.getElementById('right-input');
+            output.value = OutputResult;
         }
 
-
-
-
-
-        if(inpValArrStrAfterPoint.length !== 0){
-            console.log(`this start arr ${inpValArrNumAfterPoint}`);
-            inpValArrNumAfterPoint.reverse();
-
-            for (let i = 0; i < inpValArrNumAfterPoint.length; i++) {
-               if(inpValArrNumAfterPoint[i] === 0){
-                   inpValArrNumAfterPoint.shift();
-                   i = -1;
-               }else{
-                   break
-               }
-            }
-
-            console.log(`this is minimised ${inpValArrNumAfterPoint}`);
-            inpValArrNumAfterPoint.reverse();
-            console.log(`this is finished ${inpValArrNumAfterPoint}`);
-
-
-            if(inputValueArrNumbersCopy[inputValueArrNumbersCopy.length -1] === 1
-                && inputValueArrNumbersCopy[inputValueArrNumbersCopy.length - 2] !== 1){
-                ResultArr.pop();
-            }else if(inputValueArrNumbersCopy[inputValueArrNumbersCopy.length -1] === 2
-                && inputValueArrNumbersCopy[inputValueArrNumbersCopy.length - 2] !== 1){
-                ResultArr.pop();
-            }
-            console.log(inputValueArrNumbersCopy);
-           ResultArr.push(this.zeroToggle(inputValueArrNumbersCopy));
-            if(inpValArrNumAfterPoint.length === 1){
-                ResultArr.push(...this.pointDecadeToggle(inpValArrNumAfterPoint));
-            }else if(inpValArrNumAfterPoint.length === 2){
-                ResultArr.push(...this.pointHundredToggle(inpValArrNumAfterPoint));
-            }else if(inpValArrNumAfterPoint.length === 3){
-                ResultArr.push(...this.pointThousandToggle(inpValArrNumAfterPoint));
-            }else if(inpValArrNumAfterPoint.length === 4){
-                ResultArr.push(...this.pointTenThousandToggle(inpValArrNumAfterPoint));
-            }
-        }
-        console.log(ResultArr);
-        let OutputResult = ResultArr.join(' ');
-        let output = document.getElementById('right-input');
-        output.value = OutputResult;
     }
 
     render() {
+        const onClose = (e) => {
+            console.log(e, 'I was closed.');
+            this.setState({
+                error: ''
+            })
+        };
         return (
-            <div className='container'>
+            <div className='container'>{
+                this.state.error === '' ? null : <Alert
+                    className='error-window'
+                    message={this.state.error}
+                    description="Your limit is 9 digits before point and 4 after"
+                    type="error"
+                    closable
+                    onClose={onClose}
+                />
+            }
                 <Input placeholder="Write your number please" id='left-input' />
                 <Button type="primary" onClick={() =>{this.getValue()}} >Convert</Button>
                 <TextArea rows={4} placeholder="Here your result appears" id='right-input'/>

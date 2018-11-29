@@ -33,6 +33,9 @@
   align-items: flex-end;
 
 }
+.error-window{
+  margin-bottom: 20px;
+}
 #right-input{
   width: 500px;
   margin-top:10px;
